@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,18 +37,18 @@ jobs:
           echo "Build files:"
           ls -la build
 
-            - name: Slack Success Notification
+      - name: Slack Success Notification
         if: success()
         run: |
           curl -X POST \
-            -H 'Content-type: application/json' \
-            --data '{"text":"CI Pipeline succeeded for '${{ github.repository }}' on commit '${{ github.sha }}'"}' \
-            ${{ secrets.SLACK_WEBHOOK_URL }}
+            -H "Content-type: application/json" \
+            --data '{"text":"CI Pipeline succeeded for ${{ github.repository }}"}' \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"
 
       - name: Slack Failure Notification
         if: failure()
         run: |
           curl -X POST \
-            -H 'Content-type: application/json' \
-            --data '{"text":"CI Pipeline failed for '${{ github.repository }}' on commit '${{ github.sha }}'"}' \
-            ${{ secrets.SLACK_WEBHOOK_URL }}
+            -H "Content-type: application/json" \
+            --data '{"text":"CI Pipeline failed for ${{ github.repository }}"}' \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"
